@@ -1,10 +1,10 @@
 # Campus AI Assistant
 
-A RAG (Retrieval-Augmented Generation) chatbot for Galgotias University that answers questions about campus life, clubs, placements, and policies.
+![Demo](screenshot.png)
+
+A RAG chatbot for Galgotias University...
 
 Built with **[Endee](https://endee.io)** as the vector database backend.
-
-![Campus AI Assistant First Screen](screenshot.png)
 
 ## How it works
 
