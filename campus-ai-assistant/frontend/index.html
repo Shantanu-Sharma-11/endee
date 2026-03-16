@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Campus AI Assistant | Galgotias University</title>
+    <meta name="description"
+        content="AI-powered assistant for Galgotias University. Ask questions about campus facilities, clubs, events, and policies.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        dark: {
+                            800: '#1a1a2e',
+                            900: '#0f0f1a',
+                            950: '#08080f'
+                        },
+                        accent: {
+                            400: '#6ee7b7',
+                            500: '#34d399',
+                            600: '#10b981'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-dark-950 text-gray-100 font-sans">
+
+    <!-- Full-height app shell -->
+    <div id="app" class="flex flex-col h-[100dvh] overflow-hidden">
+
+        <!-- ═══ Header ═══ -->
+        <header class="header-glass flex-shrink-0 border-b border-white/5 z-50">
+            <div class="w-full max-w-3xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex items-center gap-2.5 sm:gap-3">
+                <div
+                    class="logo-glow w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-accent-500 to-indigo-500 flex items-center justify-center shadow-lg flex-shrink-0">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                </div>
+                <div class="min-w-0">
+                    <h1
+                        class="text-base sm:text-lg font-semibold bg-gradient-to-r from-accent-400 to-indigo-400 bg-clip-text text-transparent truncate">
+                        Campus AI Assistant
+                    </h1>
+                    <p class="text-[10px] sm:text-xs text-gray-500 truncate">Powered by Endee Vector Database</p>
+                </div>
+                <div class="ml-auto flex items-center gap-1.5 flex-shrink-0">
+                    <div id="statusDot" class="w-2 h-2 rounded-full bg-accent-500 animate-pulse"></div>
+                    <span id="statusText" class="text-[10px] sm:text-xs text-gray-500">Online</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ═══ Chat Messages (scrollable) ═══ -->
+        <main id="chatMessages" class="flex-1 overflow-y-auto overscroll-contain px-3 sm:px-4 py-4 sm:py-6">
+            <div class="max-w-3xl mx-auto space-y-3 sm:space-y-4">
+
+                <!-- Welcome Card -->
+                <div id="welcomeCard" class="text-center py-8 sm:py-12 animate-fade-in">
+                    <div
+                        class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 rounded-2xl bg-gradient-to-br from-accent-500/20 to-indigo-500/20 border border-accent-500/20 flex items-center justify-center">
+                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-accent-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-bold mb-2 text-white">Welcome to Galgotias University</h2>
+                    <p class="text-sm sm:text-base text-gray-400 mb-6 sm:mb-8 max-w-md mx-auto px-2">
+                        I'm your AI campus assistant. Ask me anything about schools, clubs, placements, or campus life
+                        at Galgotias University.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 max-w-lg mx-auto px-2">
+                        <button onclick="askSuggestion(this)"
+                            class="suggestion-btn text-left px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent-500/30 active:scale-[0.98] transition-all duration-200 group">
+                            <span class="text-sm">🏫</span>
+                            <span class="text-xs sm:text-sm text-gray-300 group-hover:text-white transition-colors">What
+                                clubs are there at Galgotias?</span>
+                        </button>
+                        <button onclick="askSuggestion(this)"
+                            class="suggestion-btn text-left px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent-500/30 active:scale-[0.98] transition-all duration-200 group">
+                            <span class="text-sm">�</span>
+                            <span class="text-xs sm:text-sm text-gray-300 group-hover:text-white transition-colors">What
+                                are the placement stats?</span>
+                        </button>
+                        <button onclick="askSuggestion(this)"
+                            class="suggestion-btn text-left px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent-500/30 active:scale-[0.98] transition-all duration-200 group">
+                            <span class="text-sm">🚀</span>
+                            <span class="text-xs sm:text-sm text-gray-300 group-hover:text-white transition-colors">Tell
+                                me about the GIC RISE incubation centre.</span>
+                        </button>
+                        <button onclick="askSuggestion(this)"
+                            class="suggestion-btn text-left px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent-500/30 active:scale-[0.98] transition-all duration-200 group">
+                            <span class="text-sm">�</span>
+                            <span class="text-xs sm:text-sm text-gray-300 group-hover:text-white transition-colors">What
+                                schools and departments does GU have?</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- ═══ Input Bar (fixed bottom) ═══ -->
+        <footer class="input-glass flex-shrink-0 border-t border-white/5">
+            <div class="w-full max-w-3xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3">
+                <form id="chatForm" class="flex items-end gap-2 sm:gap-3">
+                    <div class="flex-1 min-w-0">
+                        <textarea id="questionInput" rows="1" placeholder="Ask about campus life, clubs, policies..."
+                            class="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-accent-500/50 focus:ring-1 focus:ring-accent-500/20 resize-none transition-all duration-200"
+                            style="max-height: 120px"></textarea>
+                    </div>
+                    <button type="submit" id="sendBtn"
+                        class="send-btn w-10 h-10 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-r from-accent-500 to-indigo-500 flex items-center justify-center hover:shadow-lg hover:shadow-accent-500/25 active:scale-95 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0">
+                        <svg id="sendIcon" class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                        </svg>
+                        <div id="sendSpinner" class="hidden">
+                            <div
+                                class="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin">
+                            </div>
+                        </div>
+                    </button>
+                </form>
+                <p class="text-center text-[10px] sm:text-xs text-gray-600 mt-1.5 sm:mt-2">
+                    Semantic search powered by <strong class="text-gray-500">Endee</strong> vector database
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="/static/chat.js"></script>
+</body>
+
+</html>

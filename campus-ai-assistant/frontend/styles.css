@@ -1,0 +1,252 @@
+/* styles.css - custom styles for the chat UI */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* glassmorphism */
+.header-glass {
+    background: rgba(10, 10, 16, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.input-glass {
+    background: rgba(10, 10, 16, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.logo-glow {
+    box-shadow: 0 0 16px rgba(52, 211, 153, 0.2);
+}
+
+/* animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes typing {
+
+    0%,
+    60%,
+    100% {
+        opacity: 0.3;
+    }
+
+    30% {
+        opacity: 1;
+    }
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.15);
+    }
+
+    50% {
+        box-shadow: 0 0 16px 2px rgba(52, 211, 153, 0.08);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out;
+}
+
+.animate-slide-left {
+    animation: slideInLeft 0.35s ease-out;
+}
+
+.animate-slide-right {
+    animation: slideInRight 0.35s ease-out;
+}
+
+/* typing dots */
+.typing-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #6ee7b7;
+    animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* message bubbles */
+.msg-user {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(99, 102, 241, 0.05));
+    border: 1px solid rgba(99, 102, 241, 0.15);
+    border-radius: 18px 18px 4px 18px;
+}
+
+.msg-assistant {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 18px 18px 18px 4px;
+}
+
+.source-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 500;
+    background: rgba(52, 211, 153, 0.1);
+    color: #6ee7b7;
+    border: 1px solid rgba(52, 211, 153, 0.15);
+    white-space: nowrap;
+}
+
+.send-btn:hover:not(:disabled) {
+    animation: pulseGlow 2s infinite;
+}
+
+/* scrollbar */
+#chatMessages::-webkit-scrollbar {
+    width: 5px;
+}
+
+#chatMessages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#chatMessages::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+}
+
+#chatMessages::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+#questionInput {
+    line-height: 1.5;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+}
+
+/* markdown content */
+.assistant-content {
+    word-break: break-word;
+}
+
+.assistant-content strong {
+    color: #e2e8f0;
+    font-weight: 600;
+}
+
+.assistant-content p {
+    margin-bottom: 0.4rem;
+}
+
+.assistant-content p:last-child {
+    margin-bottom: 0;
+}
+
+.assistant-content hr {
+    border-color: rgba(255, 255, 255, 0.06);
+    margin: 0.6rem 0;
+}
+
+.assistant-content em {
+    color: #94a3b8;
+    font-style: italic;
+}
+
+.suggestion-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* responsive */
+@media (max-width: 480px) {
+    .suggestion-btn {
+        padding: 8px 10px;
+    }
+
+    .msg-user,
+    .msg-assistant {
+        max-width: 92% !important;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+
+    .msg-user,
+    .msg-assistant {
+        max-width: 85% !important;
+    }
+}
+
+@media (min-width: 769px) {
+
+    .msg-user,
+    .msg-assistant {
+        max-width: 75% !important;
+    }
+}
+
+/* safe area for notched phones */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .input-glass {
+        padding-bottom: calc(0.625rem + env(safe-area-inset-bottom));
+    }
+}
